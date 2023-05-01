@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import {
   Button,
   FormControl,
@@ -7,13 +9,64 @@ import {
   InputGroup,
   InputRightElement,
   VStack,
+  useToast,
 } from "@chakra-ui/react";
 function Login() {
   const [password, setPassWord] = useState("");
-
-  const [userEmail, setUserEmail] = useState("");
-
+  const [email, setEmail] = useState("");
+  const [loading, setIsLoading] = useState(false);
   const [showPswd, setShowPswd] = useState(false);
+  const toast = useToast();
+  const navigate = useNavigate();
+  const handleLogin = async () => {
+    setIsLoading(true);
+    if (!email || !password) {
+      toast({
+        title: "Please enter required fields",
+        status: "warning",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom",
+      });
+      setIsLoading(false);
+      return;
+    }
+
+    try {
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+        },
+      };
+      const { result } = await axios.post(
+        "/api/user/login",
+        {
+          email,
+          password,
+        },
+        config
+      );
+      toast({
+        title: "You have successfully logged up.",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom",
+      });
+      localStorage.setItem("userInfo", JSON.stringify(result));
+      setIsLoading(false);
+      navigate("/chat");
+    } catch (error) {
+      toast({
+        title: error.message,
+        status: "warning",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom",
+      });
+      setIsLoading(false);
+    }
+  };
   return (
     <VStack spacing="5px">
       <FormControl isRequired>
@@ -21,8 +74,8 @@ function Login() {
         <Input
           type="email"
           placeholder="Enter your email"
-          onChange={(e) => setUserEmail(e.target.value)}
-          value={userEmail}
+          onChange={(e) => setEmail(e.target.value)}
+          value={email}
         />
       </FormControl>
       <FormControl isRequired>
@@ -50,8 +103,9 @@ function Login() {
       <Button
         style={{ marginTop: 15 }}
         colorScheme="blue"
-        onClick={() => {}}
+        onClick={handleLogin}
         width="100%"
+        isDisabled={loading}
       >
         Login
       </Button>
@@ -61,7 +115,7 @@ function Login() {
         width="100%"
         onClick={() => {
           setPassWord("guestUsr123");
-          setUserEmail("guestUser@test.com");
+          setEmail("guestUser@test.com");
         }}
       >
         Get guest credentials
