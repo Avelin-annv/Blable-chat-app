@@ -43,4 +43,21 @@ const authenticateUser = asyncHandler(async (req, res) => {
     throw new Error("Please enter a valid email and password");
   }
 });
-module.exports = { registerUser, authenticateUser };
+const getAllUsers = asyncHandler(async (req, res) => {
+  const searchQuery = req.query.search
+    ? {
+        $or: [
+          { userName: { $regex: req.query.search, $options: "i" } },
+          {
+            email: { $regex: req.query.search, $options: "i" },
+          },
+        ],
+      }
+    : {};
+  //we need to exclude current user.
+  const searchResult = await User.find(searchQuery).find({
+    _id: { $ne: req.user._id },
+  });
+  res.send(searchResult);
+});
+module.exports = { registerUser, authenticateUser, getAllUsers };
