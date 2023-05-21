@@ -38,7 +38,7 @@ function Login() {
           "Content-type": "application/json",
         },
       };
-      const { result } = await axios.post(
+      const { data } = await axios.post(
         "/api/user/login",
         {
           email,
@@ -46,19 +46,20 @@ function Login() {
         },
         config
       );
+
       toast({
-        title: "You have successfully logged up.",
+        title: "You have successfully logged in.",
         status: "success",
         duration: 5000,
         isClosable: true,
         position: "bottom",
       });
-      localStorage.setItem("userInfo", JSON.stringify(result));
+      localStorage.setItem("userInfo", JSON.stringify(data));
       setIsLoading(false);
       navigate("/chat");
     } catch (error) {
       toast({
-        title: error.message,
+        title: error.response.data.message,
         status: "warning",
         duration: 5000,
         isClosable: true,

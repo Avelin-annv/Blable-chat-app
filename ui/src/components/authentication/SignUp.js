@@ -95,7 +95,7 @@ function SignUp() {
           "Content-type": "application/json",
         },
       };
-      const { result } = await axios.post(
+      const { data } = await axios.post(
         "/api/user",
         {
           userName,
@@ -112,7 +112,7 @@ function SignUp() {
         isClosable: true,
         position: "bottom",
       });
-      localStorage.setItem("userInfo", JSON.stringify(result));
+      localStorage.setItem("userInfo", JSON.stringify(data));
       setIsLoading(false);
       navigate("/chat");
     } catch (error) {
