@@ -22,6 +22,7 @@ import {
   useDisclosure,
   Input,
   useToast,
+  Spinner,
 } from "@chakra-ui/react";
 import { SearchIcon, ChevronDownIcon, WarningIcon } from "@chakra-ui/icons";
 import { ChatState } from "../context/ChatProvider";
@@ -29,10 +30,13 @@ import ProfileModal from "./common/ProfileModal";
 import LoadingState from "./common/LoadingState";
 import DisplayUser from "./DisplayUser";
 function SideBar() {
-  const { user } = ChatState();
+  const { user, selectedChat, setSelectedChat, chatsList, setChatsList } =
+    ChatState();
   const [loading, setIsLoading] = useState(false);
+  const [loadingChat, setIsLoadingChat] = useState(false);
   const [searchParam, setSearchParam] = useState();
   const [searchRes, setSearchRes] = useState();
+
   const navigate = useNavigate();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -41,7 +45,35 @@ function SideBar() {
     localStorage.removeItem("userInfo");
     navigate("/");
   };
-  const handleAccessChat = async () => {};
+  const handleAccessChat = async (userId) => {
+    //to create chat /access chat when clicked on a particular contact.
+    setIsLoadingChat(true);
+    try {
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+      };
+      const { data } = await axios.post("/api/chat", { userId }, config);
+      console.log("ress", data);
+      if (!chatsList.find((chat) => chat._id === data._id)) {
+        setChatsList([data, ...chatsList]);
+      }
+
+      setSelectedChat(data);
+      onClose();
+    } catch (e) {
+      toast({
+        title: "Error fetching chat details",
+        status: "warning",
+        duration: 5000,
+        isClosable: true,
+        position: "top-left",
+      });
+    }
+    setIsLoadingChat(false);
+  };
   const handleSearch = async () => {
     setIsLoading(true);
     if (!searchParam) {
@@ -153,6 +185,7 @@ function SideBar() {
                 />
               ))
             )}
+            {loadingChat && <Spinner ml="auto" display="flex" />}
           </DrawerBody>
 
           <DrawerFooter></DrawerFooter>
