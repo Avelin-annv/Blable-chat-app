@@ -7,6 +7,8 @@ import ChatsList from "../components/ChatsList";
 import MessageBox from "../components/MessageBox";
 
 const ChatPage = () => {
+  const [fetchChats, setFetchChats] = useState(false);
+
   const { user } = ChatState();
   const toast = useToast();
 
@@ -22,8 +24,10 @@ const ChatPage = () => {
           h={"90vh"}
           p={"10px"}
         >
-          {user && <ChatsList />}
-          {user && <MessageBox />}
+          {user && <ChatsList fetchChats={fetchChats} />}
+          {user && (
+            <MessageBox fetchChats={fetchChats} setFetchChats={setFetchChats} />
+          )}
         </Box>
       </div>
     </>
