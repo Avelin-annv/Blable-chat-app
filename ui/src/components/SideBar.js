@@ -181,7 +181,7 @@ function SideBar() {
                 <DisplayUser
                   displayedUser={res}
                   key={res._id}
-                  handleAccessChat={() => handleAccessChat(res._id)}
+                  handleSelection={() => handleAccessChat(res._id)}
                 />
               ))
             )}

@@ -2,10 +2,10 @@ import React from "react";
 import ChatState from "../context/ChatProvider";
 import { Box, Avatar, Text } from "@chakra-ui/react";
 
-const DisplayUser = ({ displayedUser, handleAccessChat }) => {
+const DisplayUser = ({ displayedUser, handleSelection }) => {
   return (
     <Box
-      onClick={handleAccessChat}
+      onClick={handleSelection}
       cursor={"pointer"}
       bg={"#E8E8E8"}
       _hover={{ background: "#38B2AC", color: "white" }}

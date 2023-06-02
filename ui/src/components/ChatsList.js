@@ -8,7 +8,7 @@ import LoadingState from "./common/LoadingState";
 import { getSenderName } from "../config/ChatUtils";
 import CreateGroupChatModal from "./common/CreateGroupChatModal";
 
-function ChatsList() {
+function ChatsList({ fetchChats }) {
   const [loggeInUser, setLoggedInUser] = useState();
   const { user, selectedChat, setSelectedChat, chatsList, setChatsList } =
     ChatState();
@@ -37,7 +37,7 @@ function ChatsList() {
   useEffect(() => {
     setLoggedInUser(JSON.parse(localStorage.getItem("userInfo")));
     getAllChats();
-  }, []);
+  }, [fetchChats]);
 
   return (
     <>
