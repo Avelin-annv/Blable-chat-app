@@ -50,14 +50,14 @@ export const showAvatar = (message, allMessages, index, userId) => {
       allMessages[index + 1].sender._id !== message.sender._id) ||
     (index === allMessages.length - 1 &&
       allMessages[index].sender._id !== userId);
-  console.log(message.content, show);
+
   return show;
 };
 export const getBgColor = (message, userId) => {
   return message.sender._id === userId ? "#BEE3F8" : "#B9F5D0";
 };
 export const getSenderMarginLeft = (message, userId) => {
-  return message.sender._id === userId ? "70%" : "0";
+  return message.sender._id === userId ? "80%" : "0";
 };
 export const isSameUser = (messages, message, index) => {
   return (

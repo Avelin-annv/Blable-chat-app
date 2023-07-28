@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { ChatState } from "../context/ChatProvider";
 
-import { Box, useToast, Button, Text, Stack } from "@chakra-ui/react";
+import { Box, useToast, Button, Text, Stack, Spinner } from "@chakra-ui/react";
 import { AddIcon } from "@chakra-ui/icons";
 import LoadingState from "./common/LoadingState";
 import { getSenderName } from "../config/ChatUtils";
@@ -56,7 +56,7 @@ function ChatsList({ fetchChats }) {
           pt={1}
           fontSize={{ base: "28px", md: "30px" }}
           fontFamily={"Work sans"}
-          display={"flex"}
+          display={{ base: "column", lg: "column" }}
           width={"100%"}
           justifyContent={"space-between"}
           alignItems={"center"}
@@ -64,7 +64,12 @@ function ChatsList({ fetchChats }) {
           {" "}
           My chats
           <CreateGroupChatModal>
-            <Button mr={3} rightIcon={<AddIcon />}>
+            <Button
+              size={{ base: "sm", lg: "md" }}
+              mr={3}
+              ml={{ md: "1rem" }}
+              rightIcon={<AddIcon />}
+            >
               Create new group chat
             </Button>
           </CreateGroupChatModal>
@@ -101,8 +106,13 @@ function ChatsList({ fetchChats }) {
               ))}
             </Stack>
           ) : (
-            // <LoadingState />
-            ""
+            <Spinner
+              size={"xl"}
+              w={20}
+              h={20}
+              justifySelf={"center"}
+              margin={"auto"}
+            />
           )}
         </Box>
       </Box>

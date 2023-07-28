@@ -202,19 +202,15 @@ function UpdateGroupChatModal({
             justifyContent={"space-between"}
           >
             {" "}
-            {/* <Box display={"flex"}> */}
             <FormControl display={"flex"}>
-              {selectedChat.groupAdmin?._id === user._id ? (
-                <Input
-                  mb={3}
-                  type="text"
-                  placeholder="Group chat name"
-                  onChange={(e) => setGrpChatName(e.target.value)}
-                  value={grpChatName}
-                />
-              ) : (
-                <Text>{`Group chat name: ${selectedChat.chatName}`}</Text>
-              )}
+              <Input
+                mb={3}
+                type="text"
+                placeholder="Group chat name"
+                onChange={(e) => setGrpChatName(e.target.value)}
+                value={grpChatName}
+              />
+
               <Button
                 colorScheme="teal"
                 ml={1}
