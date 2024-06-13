@@ -49,7 +49,6 @@ const accessChat = asyncHandler(async (req, res) => {
 });
 const getAllChats = asyncHandler(async (req, res) => {
   try {
-    //also feth last message->sort-if groupchat?-populate group
     await Chat.find({
       users: { $elemMatch: { $eq: req.user._id } },
     })
@@ -147,7 +146,48 @@ const removeFromGroup = asyncHandler(async (req, res) => {
     res.send(updatedGroupChat);
   }
 });
-
+const addChatNotifications = asyncHandler(async (req, res) => {
+  // const { userId, chatId } = req.body;
+  const { content, chatId } = req.body;
+  var newNotif = {
+    sender: req.user._id,
+    content,
+    chat: chatId,
+  };
+  const updatedChatNotifications = await Chat.findByIdAndUpdate(
+    chatId,
+    {
+      $push: { notifications: newNotif },
+    },
+    { new: true }
+  );
+  //.populate("users", "-password");
+  //.populate("groupAdmin", "-password");
+  if (!updatedChatNotifications) {
+    res.status(400).send("Error occured.");
+    throw new Error("Error occured.");
+  } else {
+    res.send(updatedGroupChat);
+  }
+});
+const removeChatNotifications = asyncHandler(async (req, res) => {
+  const { notifId, chatId } = req.body;
+  const updatedChat = await Chat.findByIdAndUpdate(
+    chatId,
+    {
+      $pull: { notifications: notifId },
+    },
+    { new: true }
+  );
+  // .populate("users", "-password")
+  // .populate("groupAdmin", "-password");
+  if (!updatedChat) {
+    res.status(400).send("Uncaught error");
+    throw new Error("Uncaught error");
+  } else {
+    res.send(updatedChat);
+  }
+});
 module.exports = {
   accessChat,
   createGroupChat,
@@ -155,4 +195,6 @@ module.exports = {
   addToGroup,
   removeFromGroup,
   getAllChats,
+  removeChatNotifications,
+  addChatNotifications,
 };

@@ -19,12 +19,12 @@ const sendMessage = asyncHandler(async (req, res) => {
       path: "chat",
       populate: { path: "lastMessage users" },
     });
-    console.log("message psoted", message);
+
     message = await User.populate(message, {
       path: "chat.users",
       select: "userName email profilePic",
     });
-    console.log("message psoted", message);
+
     await Chat.findByIdAndUpdate(chatId, {
       lastMessage: message,
     });
