@@ -18,12 +18,12 @@ export const getPosition = (message, userId) => {
   return message.sender._id === userId ? "right" : "left";
 };
 export const isSameSender = (message, index, userId, allMessages) => {
-  const first = console.log(
+  const first =
     (index < allMessages.length - 1 &&
       allMessages[index + 1].sender._id !== message.sender._id) ||
-      (allMessages[index + 1] === undefined &&
-        allMessages[index].sender !== userId)
-  );
+    (allMessages[index + 1] === undefined &&
+      allMessages[index].sender !== userId);
+
   return (
     (index < allMessages.length - 1 &&
       allMessages[index + 1].sender._id !== message.sender._id) ||

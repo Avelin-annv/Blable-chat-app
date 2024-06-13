@@ -34,6 +34,7 @@ function UpdateGroupChatModal({
 }) {
   const { user, selectedChat, setSelectedChat, chatsList, setChatsList } =
     ChatState();
+  //something happening getting diff chat name.
   const config = getConfig(user);
   const [grpChatName, setGrpChatName] = useState(selectedChat.chatName);
 
@@ -62,8 +63,9 @@ function UpdateGroupChatModal({
       setFetchChats(!fetchChats);
       fetchAllMessages();
     } catch (e) {
+      console.log("ee", e);
       toast({
-        title: "Error adding users",
+        title: "Error removing users",
         status: "warning",
         duration: 5000,
         isClosable: true,

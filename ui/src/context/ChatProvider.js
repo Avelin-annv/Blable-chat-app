@@ -11,13 +11,16 @@ const ChatProvider = ({ children }) => {
   const [user, setUser] = useState();
   const [selectedChat, setSelectedChat] = useState();
   const [chatsList, setChatsList] = useState([]);
+  const [notification, setNotification] = useState([]);
   const navigate = useNavigate();
   const location = useLocation();
+
   useEffect(() => {
     var userData = localStorage.getItem("userInfo");
 
     if (userData !== "undefined") {
       userData = JSON.parse(userData);
+      //warning here
       setUser(userData);
     }
 
@@ -35,6 +38,8 @@ const ChatProvider = ({ children }) => {
         setSelectedChat,
         chatsList,
         setChatsList,
+        notification,
+        setNotification,
       }}
     >
       {children}

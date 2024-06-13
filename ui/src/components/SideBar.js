@@ -222,17 +222,16 @@ function SideBar() {
                 Search
               </Button>
             </Box>
-            {loading ? (
-              <LoadingState />
-            ) : (
-              searchRes?.map((res) => (
-                <DisplayUser
-                  displayedUser={res}
-                  key={res._id}
-                  handleSelection={() => handleAccessChat(res._id)}
-                />
-              ))
-            )}
+            {loading
+              ? // <LoadingState />
+                console.log("loading in progress ")
+              : searchRes?.map((res) => (
+                  <DisplayUser
+                    displayedUser={res}
+                    key={res._id}
+                    handleSelection={() => handleAccessChat(res._id)}
+                  />
+                ))}
             {loadingChat && <Spinner ml="auto" display="flex" />}
           </DrawerBody>
 
